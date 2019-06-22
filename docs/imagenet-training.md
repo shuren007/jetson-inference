@@ -72,13 +72,23 @@ DIGITS expects the data in a hierarchy of folders, so we can create directories 
 • sign/  (2)
 ```
 
-Since there are actually a lot of synsets linked to from ILSVRC12, we provide the **[`imagenet-subset.sh`](../tools/imagenet-subset.sh)** script to generate the directory structure and links given the path to the dataset.  Run the folowing commands from the DIGITS server:
+Since there are actually a lot of synsets linked to from ILSVRC12, we provide the **[`imagenet-subset.sh`](../tools/imagenet-subset.sh)** script to generate the directory structure and links given the path to the dataset.  
+The script only works with downloaded images stored in the directory: /opt/datasets/imagenet/ilsvrc12
+The /12_classes directory needs to be in /home/userid/data directory
+
+If the images are saved in a sperate directory, the python script has to be modifies: 
+imagenet-subset.sh
+replace 'ln -l' with 'cp -r'
+The original script only create a link to the images in the directory /opt/datasets/imagenet/ilsvrc12. (cause issues if the directories are different)
+The fix is to hard copy the images to the local folder, instead of link to the images. 
+
+Run the folowing commands from the DIGITS server: 
 
 ``` bash
 $ wget https://rawgit.com/dusty-nv/jetson-inference/master/tools/imagenet-subset.sh
 $ chmod +x imagenet-subset.sh
-$ mkdir 12_classes
-$ ./imagenet-subset.sh /opt/datasets/imagenet/ilsvrc12 12_classes
+$ mkdir /home/userid/data/12_classes
+$ ./imagenet-subset.sh /opt/datasets/imagenet/ilsvrc12 /home/userid/data/12_classes
 ```
 
 In this example the links are created in the `12_classes` folder, with the first argument to the script being the path to ILSVRC12 downloaded in the previous step. 
