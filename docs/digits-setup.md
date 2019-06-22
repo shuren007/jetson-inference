@@ -96,6 +96,34 @@ $ sudo usermod -aG docker $USER
 $ sudo reboot
 ```
 
+Get an error installing nvidia-docker2. Solution following
+
+https://github.com/NVIDIA/nvidia-docker/issues/887
+
+```
+sudo apt-get remove docker docker-engine docker.io
+
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+    
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+sudo apt-get update
+sudo apt-get install docker-ce
+sudo apt-get install nvidia-docker2
+
+```
+
+
 #### NGC Sign-up 
 
 Sign up to NGC if you have not.
@@ -146,9 +174,23 @@ $ nvidia-docker run --name digits -d -p 8888:5000 \
 
 Open up a web browser and access http://localhost:8888 
 
+if a dock already running, to remove it: 
+
+list docker containers 
+```
+docker container ls -a
+```
+remove: 
+```
+docker container rm cc3f2ff51cab cd20b396a061
+```
+
+
 ##
 <p align="right">Next | <b><a href="jetpack-setup.md">Setting up Jetson with JetPack</a></b>
 <br/>
 Back | <b><a href="digits-workflow.md">DIGITS Workflow</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Table of Contents</sup></a></p>
+
+
 
